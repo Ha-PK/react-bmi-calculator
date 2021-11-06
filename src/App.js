@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Calculator from "./Calculator";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="app">
+      <div className="app-calculator">
+        <Calculator />
+      </div>
+      <div className="app-information">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          <strong>BMI Categories:</strong>
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <p>
+          Underweight = &lt;18.5
+          <br />
+          Normal weight = 18.5–24.9
+          <br />
+          Overweight = 25–29.9
+          <br />
+          Obesity = BMI of 30 or greater
+        </p>
+      </div>
     </div>
   );
 }
