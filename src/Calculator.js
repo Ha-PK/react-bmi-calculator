@@ -1,33 +1,23 @@
-import React from "react";
+import { useState, useRef } from "react";
 
-class Calculator extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      height: 0,
-      weight: 0,
-      bmi: 0,
-    };
-  }
+function Calculator() {
+  const [height, setHeight] = useState(0);
+  const [weight, setWeight] = useState(0);
+  const [bmi, setBmi] = useState(0);
+  const weightRef = useRef();
+  const heightRef = useRef();
 
-  compute() {
-    const height = this.state.height;
-    const weight = this.state.weight;
-
+  function compute() {
     if (!height || !weight) {
-      return this.setState({
-        bmi: 0,
-      });
+      setBmi(0);
     }
 
-    const bmi = ((weight * 10000) / height / height).toFixed(2);
+    const newBmi = ((weight * 10000) / height / height).toFixed(2);
 
-    this.setState({
-      bmi: bmi,
-    });
+    setBmi(newBmi);
   }
 
-  changeInput(e) {
+  function changeInput(e) {
     const name = e.target.name;
     const value = numberFormat(e.target.value);
 
@@ -36,39 +26,47 @@ class Calculator extends React.Component {
     });
   }
 
-  render() {
-    return (
-      <div className="calculator">
-        <div>
-          <label>Your height (centimeters):</label>
-          <input
-            type="text"
-            value={this.state.height}
-            name="height"
-            onChange={(e) => this.changeInput(e, "height")}
-          />
-        </div>
-        <div>
-          <label>Your weight (kilograms):</label>
-          <input
-            type="text"
-            value={this.state.weight}
-            name="weight"
-            onChange={(e) => this.changeInput(e, "weight")}
-          />
-        </div>
-        <div>
-          <button type="button" onClick={() => this.compute()}>
-            Compute BMI
-          </button>
-        </div>
-        <div>
-          <label>Your BMI:</label>
-          <input type="text" value={this.state.bmi} readOnly />
-        </div>
-      </div>
-    );
+  function changeWeight() {
+    const value = weightRef.current.value;
+    setWeight(value);
   }
+
+  function changeHeight() {
+    const value = heightRef.current.value;
+    setHeight(value);
+  }
+
+  return (
+    <div className="calculator">
+      <div>
+        <label>Your height (centimeters):</label>
+        <input
+          type="text"
+          value={height}
+          ref={heightRef}
+          onChange={changeHeight}
+        />
+      </div>
+      <div>
+        <label>Your weight (kilograms):</label>
+        <input
+          type="text"
+          value={weight}
+          ref={weightRef}
+          onChange={changeWeight}
+        />
+      </div>
+      <div>
+        <button type="button" onClick={compute}>
+          Compute BMI
+        </button>
+      </div>
+      <div>
+        <label>Your BMI:</label>
+        <input type="text" value={bmi} readOnly />
+      </div>
+    </div>
+  );
 }
 
 function numberFormat(input) {
